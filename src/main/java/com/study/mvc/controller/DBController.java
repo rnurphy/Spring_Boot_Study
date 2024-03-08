@@ -16,7 +16,6 @@ public class DBController {
 
     @PostMapping("/insert")
     public ResponseEntity<?> insert(@RequestBody DBStudyReqDto dbStudyReqDto) {
-        System.out.println();
         return ResponseEntity.ok(dbStudyService.createStudy(dbStudyReqDto));
     }
 
