@@ -4,9 +4,97 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.study.mvc.Repository.DBStudyRepository">
+    <!-- ////////////////////////////[ MAP ]///////////////////////////////////////////////////// -->
+    <resultMap id="studyResultMap" type="com.study.mvc.Entity.Study">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="age" column="age" />
+        <result property="createDate" column="create_date" />
+    </resultMap>
+
+    <!-- ////////////////////////////[ SQL ]///////////////////////////////////////////////////// -->
     <insert id="save" parameterType="com.study.mvc.Entity.Study" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
             study_tb
         VALUES(0, #{name}, #{age}, now())
     </insert>
+
+    <select id="findStudyById" parameterType="Integer" resultMap="studyResultMap">
+        SELECT
+            id,
+            name,
+            age,
+            create_date
+        FROM
+            study_tb
+        WHERE
+            id = #{id}
+    </select>
+
+    <select id="findStudyByName" parameterType="String" resultMap="studyResultMap">
+        SELECT
+            id,
+            name,
+            age,
+            create_date
+        FROM
+            study_tb
+        WHERE
+            name = #{name}
+    </select>
+
+    <select id="findAll" resultMap="studyResultMap">
+        SELECT
+            id,
+            name,
+            age,
+            create_date
+        FROM
+            study_tb
+    </select>
+
+    <delete id="deleteById" parameterType="Integer">
+        DELETE
+        FROM
+            study_tb
+        WHERE
+            id = #{id}
+    </delete>
+
+    <update id="putById" parameterType="com.study.mvc.Entity.Study">
+        UPDATE
+            study_tb
+        SET
+            name = #{name},
+            age = #{age}
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="patchById" parameterType="com.study.mvc.Entity.Study">
+        UPDATE
+            study_tb
+        SET
+            <if test="name != null and !name.equals('')">
+                name = ${name},
+            </if>
+            <if test="age != null and age != 0">
+                age = ${age},
+            </if>
+                create_date = create_date
+        WHERE
+            id = #{id}
+    </update>
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>
